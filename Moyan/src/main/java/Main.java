@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main extends ListenerAdapter {
     public static void main(String[] args) throws LoginException {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
-        String token = "";
+        String token = "Njc1MjgwNjI5NzU5MzQ0NjQx.Xn-S-g.F0wPrcy9sESH7-Jeo83DvUkh9do";
         builder.setToken(token);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("Beep Beep Boop !"));
@@ -31,7 +31,7 @@ public class Main extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        System.out.println("Un message de " + event.getAuthor().getName() + " sur " + event.getChannel().getName() + " du serveur " + event.getGuild().getName() + " : " + event.getMessage().getContentDisplay());
+        System.out.println("Un message de " + event.getAuthor().getName() + " sur " + event.getChannel().getName() + " : " + event.getMessage().getContentDisplay());
         Date aujourdhui = new Date();
         DateFormatSymbols FR = new DateFormatSymbols(Locale.FRENCH);
         SimpleDateFormat format = new SimpleDateFormat("'Nous sommes le' EEEE d MMM yyyy, ' il est' hh:mm:ss.", FR);
@@ -48,9 +48,9 @@ public class Main extends ListenerAdapter {
         }
         if (event.getMessage().getContentRaw().equals("/help")) {
             event.getAuthor().openPrivateChannel().queue((channel) -> {
-                channel.sendMessage("/ping : pour recevoir un message pong\n /time : pour afficher l'heure et la date actuelle\n /origine : pour afficher le nom de mes auteurs et de leurs provenances universitaire\n /say : pour que je fasse le perroquet\n Voila !").queue();
+                channel.sendMessage("/ping : pour recevoir un message pong\n/time : pour afficher l'heure et la date actuelle\n/origine : pour afficher le nom de mes auteurs et de leurs provenances universitaire\n/say : pour que je fasse le perroquet\n/roll : \n/kick : pour kick un membre si vous en avez la capacité \n/sendMessageAll : pour envoyer un message à tout le monde en mp\n/checkping : pour obtenir le ping de l'utilisateur au mentionné\n/mp : pour envoyer un mp à une personne mentionné\n/ohlebot : pour controler le bot en mode manuel et interragir à travers une console\n/ajouterMotInterdit : afin d'ajouter un mot qui est interdit d'usage\nVoila !").queue();
             });
-            event.getChannel().sendMessage("Regardez dans vos PM, toutes nos commandes y sont ! :grin:").queue();
+            event.getChannel().sendMessage("Regardez dans vos PM, toutes mes commandes y sont ! :grin:").queue();
         }
         if (event.getMessage().getContentRaw().equals("Awo") || event.getMessage().getContentRaw().contains("Awo".toLowerCase()) || event.getMessage().getContentRaw().contains("Awo".toUpperCase())) {
             event.getChannel().sendMessage("Awooooooooooo").queue();
@@ -156,10 +156,9 @@ public class Main extends ListenerAdapter {
             if (lm.contains(event.getMessage().getContentRaw())) {
                 event.getChannel().sendMessage("Attention à vos propos").queue();
             }
-            if (event.getMessage().getContentRaw().contains("/ajoutermotinterdit")) {
+            if (event.getMessage().getContentRaw().contains("/ajouterMotInterdit")) {
                 PrintWriter writer = new PrintWriter("MotsInterdits", "UTF-8");
                 writer.println(event.getMessage().getContentRaw().substring(20));
-                System.out.println(event.getMessage().getContentRaw().substring(20));
                 writer.close();
             }
         } catch (FileNotFoundException e) {
