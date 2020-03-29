@@ -6,9 +6,9 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
 import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.nio.file.Files;
@@ -27,6 +27,15 @@ public class Main extends ListenerAdapter {
         builder.setActivity(Activity.playing("Beep Beep Boop !"));
         builder.addEventListeners(new Main());
         builder.build();
+    }
+
+    @Override
+    public void onGuildMemberJoin(GuildMemberJoinEvent event) {
+        String[] messagesAccueil = {"Oh ! Un sauvage du nom de membre a rejoint le seveur !", "Oh non pas lui, membre a rejoint le discord. Fini la rigolade :pensive:.", "AAAAAAAAAAAAAAAAAAAA", "Personne :\nmembre qui vient sur ce serveur :", "Sincère salutations, organisme carboné vivant plus communément appelé membre !"};
+        Random rand = new Random();
+        int numero = rand.nextInt(messagesAccueil.length);
+        event.getGuild().getDefaultChannel().sendMessage(messagesAccueil[numero].replaceAll("membre",event.getMember().getAsMention())).queue();
+        event.getGuild().modifyMemberRoles(event.getMember(), event.getGuild().getRolesByName("Membre", true)).complete();
     }
 
     @Override
@@ -165,6 +174,17 @@ public class Main extends ListenerAdapter {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (event.getMessage().getContentRaw().startsWith("/ohlebot")) {
+            Scanner sc = new Scanner(System.in);
+            String message = sc.nextLine();
+            event.getChannel().sendMessage(message).queue();
+        }
+        if (event.getMessage().getContentRaw().startsWith("/8ball")) {
+            String[] reponses = {"C'est certain.", "Sans aucun doute.", "Oui, absolument.", "Le destin en a décidé ainsi.", "Vous pouvez compter là dessus.", "Très certainement.", "Oui.", "Tous les signes montrent que oui.", "Posez la question plus tard.", "Il vaudrait mieux ne pas vous répondre maintenant.", "Concentrez-vous et reposez la question.", "Je ne peux prédire cela.", "Ma réponse est non.", "Mes sources disent que non.", "J'en doute fortement.", "Sans l'ombre d'un doute."};
+            int random = new Random().nextInt(reponses.length);
+            event.getChannel().sendMessage("Question : " + event.getMessage().getContentRaw().replaceAll("/8ball ", "") + "\nRéponse : " + reponses[random]).queue();
         }
 
 
